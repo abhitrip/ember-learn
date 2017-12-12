@@ -1,1 +1,27 @@
 <h1>Contact page</h1>
+<p class="well well-sm">If you have any question or feedback please leave a message with your email address.</p>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Your address:*</label>
+            {{input type="email" class="form-control" placeholder="Your email address" value=emailAddress autofocus="autofocus"}}
+        </div>
+            <br/><br/>
+        <div class="form-group">
+            <label>Your message*:</label>
+            {{textarea class="form-control" rows="3" placeholder="Your message. (At least 5 characters.)" value=message}}
+        </div>  
+
+        <button class="btn btn-success" {{action "sendMessage"}} disabled="{{unless isValid 'disabled'}}">Send</button>
+
+        {{#if responseMessage}}
+        <div class="col-md-6">
+            <br/>
+            <div class="alert alert-success">
+                <h4>Thank you! Your message is sent.</h4>
+                <p>{{responseMessage}}</p>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</div>
