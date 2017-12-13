@@ -9,12 +9,24 @@ export default Controller.extend({
         sendMessage(){
             let email = this.get('emailAddress');
             let message = this.get('message');
-            alert('Sending your message in progress... ');
-            let responseMessage = 'To: ' + email + ', Message: ' + message;
-            this.set('responseMessage', responseMessage);
-            this.set('emailAddress', '');
-            this.set('message', '');
+            
+            const newContact = this.store.createRecord('contact',{
+                email:email, 
+                message: message
+            });
 
+            newContact.save().then((response)=> {
+                let responseMessage = 'To: ' + response.get('email') + ', Message: ' + response.get('message');
+                this.set('responseMessage', responseMessage);
+                this.set('emailAddress', '');
+                this.set('message', '');
+            });
+
+        },
+        willTransition() {
+            // rollbackAttributes() removes the record from the store
+            // if the model 'isNew'
+            this.controller.get('model').rollbackAttributes();
         }
     }
 });
